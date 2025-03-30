@@ -2,10 +2,12 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
-import reportWebVitals from "./report-web-vitals.ts";
-import "./styles.css";
+import reportWebVitals from "@/report-web-vitals.ts";
+
+import "@/assets/styles/styles.css";
+
 // Import the generated route tree
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "@/routeTree.gen";
 
 // Create a new router instance
 const router = createRouter({
