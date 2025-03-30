@@ -31,6 +31,16 @@ export const Route = createRootRoute({
           <li>
             <Link
               className="text-foreground hover:underline"
+              activeProps={{ className: "text-primary underline" }}
+              to="/"
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="text-foreground hover:underline"
+              activeProps={{ className: "text-primary underline" }}
               to="/forms"
             >
               Forms
