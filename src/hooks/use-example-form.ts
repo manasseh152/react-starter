@@ -1,8 +1,6 @@
-import { a } from "@arrirpc/schema";
 import { useState } from "react";
 import { toast } from "sonner";
 import * as v from "valibot";
-import { z } from "zod";
 
 import { useAppForm } from "@/hooks/use-app-form";
 
@@ -20,55 +18,6 @@ export const NOTIFICATION_TYPE_OPTIONS = [
   "updates",
 ] as const;
 export type NotificationType = typeof NOTIFICATION_TYPE_OPTIONS[number];
-
-export const userProfileSchemaZod = z
-  .object({
-    // Section 1: Basic Information
-    fullName: z.string().min(1, { message: "Full name is required" }),
-    email: z
-      .string()
-      .min(1, { message: "Email is required" })
-      .email({ message: "Invalid email address" }),
-    country: z.string().min(1, { message: "Country selection is required" }),
-
-    // Section 2: Profile Details
-    profileVisibility: z.string(),
-    bio: z.string().max(500, "Bio cannot exceed 500 characters"),
-    profileColor: z.string(),
-
-    // Section 3: Notification Preferences
-    enableEmailNotifications: z.boolean().default(true),
-    notificationTypes: z.array(z.string()),
-    notificationFrequency: z
-      .number()
-      .min(1, "Frequency must be at least 1 day")
-      .max(30, "Frequency cannot exceed 30 days")
-      .int("Frequency must be a whole number"),
-
-    // Section 4: Financial (Example)
-    donationAmount: z.string(),
-
-    // Section 5: Agreement
-    agreeToTerms: z.boolean(),
-  });
-
-export type UserProfileSchemaZod = z.infer<typeof userProfileSchemaZod>;
-
-const UserProfileSchemaArri = a.object({
-  fullname: a.string(),
-  email: a.string(),
-  country: a.string(),
-  profileVisibility: a.stringEnum(PROFILE_VISIBILITY_OPTIONS as unknown as string[]),
-  bio: a.string(),
-  profileColor: a.string(),
-  enableEmailNotifications: a.boolean(),
-  notificationTypes: a.array(a.stringEnum(NOTIFICATION_TYPE_OPTIONS as unknown as string[])),
-  notificationFrequency: a.number(),
-  donationAmount: a.string(),
-  agreeToTerms: a.boolean(),
-});
-
-type UserProfileSchemaArri = typeof UserProfileSchemaArri;
 
 export const userProfileSchemaValibot = v.object({
   // Section 1: Basic Information
