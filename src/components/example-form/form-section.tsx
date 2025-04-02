@@ -161,7 +161,7 @@ export const FormSection = withForm({
               children={field => (
                 <Label>
                   <Label.Text>Notification Frequency</Label.Text>
-                  <field.SliderField field={field} />
+                  <field.SliderField field={field} min={1} max={30} step={1} />
                   <field.ValidationError />
                 </Label>
               )}

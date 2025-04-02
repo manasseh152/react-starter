@@ -1,5 +1,7 @@
+import { a } from "@arrirpc/schema";
 import { useState } from "react";
 import { toast } from "sonner";
+import * as v from "valibot";
 import { z } from "zod";
 
 import { useAppForm } from "@/hooks/use-app-form";
@@ -19,7 +21,7 @@ export const NOTIFICATION_TYPE_OPTIONS = [
 ] as const;
 export type NotificationType = typeof NOTIFICATION_TYPE_OPTIONS[number];
 
-export const userProfileSchema = z
+export const userProfileSchemaZod = z
   .object({
     // Section 1: Basic Information
     fullName: z.string().min(1, { message: "Full name is required" }),
@@ -50,9 +52,46 @@ export const userProfileSchema = z
     agreeToTerms: z.boolean(),
   });
 
-export type UserProfileSchema = z.infer<typeof userProfileSchema>;
+export type UserProfileSchemaZod = z.infer<typeof userProfileSchemaZod>;
 
-export const defaultValues: UserProfileSchema = {
+const UserProfileSchemaArri = a.object({
+  fullname: a.string(),
+  email: a.string(),
+  country: a.string(),
+  profileVisibility: a.stringEnum(PROFILE_VISIBILITY_OPTIONS as unknown as string[]),
+  bio: a.string(),
+  profileColor: a.string(),
+  enableEmailNotifications: a.boolean(),
+  notificationTypes: a.array(a.stringEnum(NOTIFICATION_TYPE_OPTIONS as unknown as string[])),
+  notificationFrequency: a.number(),
+  donationAmount: a.string(),
+  agreeToTerms: a.boolean(),
+});
+
+type UserProfileSchemaArri = typeof UserProfileSchemaArri;
+
+export const userProfileSchemaValibot = v.object({
+  // Section 1: Basic Information
+  fullName: v.pipe(v.string(), v.minLength(1, "Full name is required"), v.maxLength(50, "Full name cannot exceed 50 characters")),
+  email: v.pipe(v.string(), v.minLength(1, "Email is required"), v.maxLength(100, "Email cannot exceed 100 characters"), v.email("Invalid email address")),
+  country: v.pipe(v.string(), v.minLength(1, "Country selection is required"), v.maxLength(50, "Country cannot exceed 50 characters")),
+  // Section 2: Profile Details
+  profileVisibility: v.picklist(PROFILE_VISIBILITY_OPTIONS, "Profile visibility is required"),
+  bio: v.pipe(v.string(), v.maxLength(500, "Bio cannot exceed 500 characters")),
+  profileColor: v.pipe(v.string(), v.minLength(7, "Profile color is required"), v.maxLength(7, "Profile color must be a valid hex color code")),
+  // Section 3: Notification Preferences
+  enableEmailNotifications: v.boolean(),
+  notificationTypes: v.array(v.picklist(NOTIFICATION_TYPE_OPTIONS, "Notification type is required")),
+  notificationFrequency: v.pipe(v.number(), v.minValue(1, "Frequency must be at least 1 day"), v.maxValue(30, "Frequency cannot exceed 30 days"), v.integer("Frequency must be a whole number")),
+  // Section 4: Financial (Example)
+  donationAmount: v.pipe(v.string(), v.minLength(1, "Donation amount is required"), v.maxLength(10, "Donation amount cannot exceed 10 characters")),
+  // Section 5: Agreement
+  agreeToTerms: v.boolean(),
+});
+
+export type UserProfileSchemaValibot = v.InferInput<typeof userProfileSchemaValibot>;
+
+export const defaultValues: UserProfileSchemaValibot = {
   fullName: "",
   email: "",
   country: "",
@@ -89,7 +128,7 @@ export function useExampleForm() {
       toast.error("Form submission failed. Please check the errors.");
     },
     validators: {
-      onSubmit: userProfileSchema,
+      onSubmit: userProfileSchemaValibot,
     },
   });
 
