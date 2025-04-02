@@ -2,12 +2,12 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
-import reportWebVitals from "@/report-web-vitals.ts";
+import { ThemeProvider } from "@/components/providers/theme";
 
 import "@/assets/styles/styles.css";
 
-// Import the generated route tree
-import { routeTree } from "@/routeTree.gen";
+import reportWebVitals from "./report-web-vitals.ts";
+import { routeTree } from "./routeTree.gen";
 
 // Create a new router instance
 const router = createRouter({
@@ -21,10 +21,10 @@ const router = createRouter({
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
-    // @ts-expect-error: This is a workaround for the fact that we can't use `import type` in this file
-    type Register = {
-      router: typeof router;
-    };
+  // eslint-disable-next-line ts/consistent-type-definitions
+  interface Register {
+    router: typeof router;
+  }
 }
 
 // Render the app
@@ -33,7 +33,9 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </StrictMode>,
   );
 }
