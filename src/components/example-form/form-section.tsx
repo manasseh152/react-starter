@@ -153,14 +153,14 @@ export const FormSection = withForm({
             <div className="w-full flex flex-col gap-2">
               <form.AppForm>
                 <form.SubmitButton className="w-full" />
-                <form.Subscribe
+                <form.ShowIf
                   selector={state => state.isDirty}
-                  children={isDirty => isDirty && (
+                  when={isDirty => isDirty}
+                  children={(
                     <Button
                       variant="outline"
                       className="w-full"
                       onClick={handleReset}
-                      disabled={!isDirty}
                     >
                       Reset
                     </Button>
