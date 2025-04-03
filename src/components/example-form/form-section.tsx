@@ -1,53 +1,14 @@
 import type { FormEvent } from "react";
 
-import type { CheckBoxOption } from "@/components/form-fields/checkbox-group";
 import type { SelectOption } from "@/components/form-fields/select";
 import type { NotificationType } from "@/hooks/use-example-form";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { withForm } from "@/hooks/use-app-form";
-import { defaultValues } from "@/hooks/use-example-form";
+import { COUNTRY_OPTIONS, defaultValues, NOTIFICATION_TYPE_OPTIONS } from "@/hooks/use-example-form";
 
-const COUNTRY_OPTIONS: SelectOption<string>[] = [
-  { value: "us", label: "United States" },
-  { value: "ca", label: "Canada" },
-  { value: "uk", label: "United Kingdom" },
-  { value: "au", label: "Australia" },
-  { value: "de", label: "Germany" },
-  { value: "fr", label: "France" },
-  { value: "jp", label: "Japan" },
-  { value: "cn", label: "China" },
-  { value: "in", label: "India" },
-  { value: "br", label: "Brazil" },
-  { value: "za", label: "South Africa" },
-  { value: "ru", label: "Russia" },
-  { value: "it", label: "Italy" },
-  { value: "es", label: "Spain" },
-  { value: "mx", label: "Mexico" },
-  { value: "kr", label: "South Korea" },
-  { value: "sg", label: "Singapore" },
-  { value: "ae", label: "United Arab Emirates" },
-  { value: "nl", label: "Netherlands" },
-  { value: "se", label: "Sweden" },
-  { value: "no", label: "Norway" },
-  { value: "fi", label: "Finland" },
-  { value: "dk", label: "Denmark" },
-  { value: "pl", label: "Poland" },
-  { value: "cz", label: "Czech Republic" },
-  { value: "hu", label: "Hungary" },
-  { value: "ro", label: "Romania" },
-  { value: "tr", label: "Turkey" },
-  { value: "gr", label: "Greece" },
-  { value: "pt", label: "Portugal" },
-  { value: "ie", label: "Ireland" },
-];
-const NOTIFICATION_TYPE_OPTIONS: CheckBoxOption<NotificationType>[] = [
-  { value: "news", label: "News" },
-  { value: "messages", label: "Messages" },
-  { value: "mentions", label: "Mentions" },
-  { value: "updates", label: "Updates" },
-];
+import type { Option } from "../form/checkbox-group";
 
 export const FormSection = withForm({
   defaultValues,
@@ -95,7 +56,7 @@ export const FormSection = withForm({
               children={field => (
                 <Label>
                   <Label.Text>Country</Label.Text>
-                  <field.SelectField field={field} options={COUNTRY_OPTIONS} />
+                  <field.SelectField field={field} options={COUNTRY_OPTIONS as unknown as SelectOption<string>[]} />
                   <field.ValidationError />
                 </Label>
               )}
@@ -151,7 +112,7 @@ export const FormSection = withForm({
               children={field => (
                 <Label>
                   <Label.Text>Notification Types</Label.Text>
-                  <field.CheckboxGroupField field={field} options={NOTIFICATION_TYPE_OPTIONS} />
+                  <field.CheckboxGroupField field={field} options={NOTIFICATION_TYPE_OPTIONS as unknown as Option<NotificationType>[]} />
                   <field.ValidationError />
                 </Label>
               )}
