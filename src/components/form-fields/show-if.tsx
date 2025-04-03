@@ -1,8 +1,22 @@
+import type { FormApi, FormAsyncValidateOrFn, FormState, FormValidateOrFn } from "@tanstack/form-core";
+import type { NoInfer } from "@tanstack/react-store";
+
 import { useEffect, useRef } from "react";
 
 import { useFormContext } from "@/components/form-fields/form-context";
 
-export function ShowIf<T, TSelected>({
+export function ShowIf<
+  TFormData = any,
+  TOnMount extends undefined | FormValidateOrFn<TFormData> = any,
+  TOnChange extends undefined | FormValidateOrFn<TFormData> = any,
+  TOnChangeAsync extends undefined | FormAsyncValidateOrFn<TFormData> = any,
+  TOnBlur extends undefined | FormValidateOrFn<TFormData> = any,
+  TOnBlurAsync extends undefined | FormAsyncValidateOrFn<TFormData> = any,
+  TOnSubmit extends undefined | FormValidateOrFn<TFormData> = any,
+  TOnSubmitAsync extends undefined | FormAsyncValidateOrFn<TFormData> = any,
+  TOnServer extends undefined | FormAsyncValidateOrFn<TFormData> = any,
+  TSelected = any,
+>({
   children,
   selector,
   when,
@@ -10,9 +24,9 @@ export function ShowIf<T, TSelected>({
   onHide,
 }: {
   children: React.ReactNode;
-  selector: (state: T) => TSelected;
+  selector: (state: NoInfer<FormState<TFormData, TOnMount, TOnChange, TOnChangeAsync, TOnBlur, TOnBlurAsync, TOnSubmit, TOnSubmitAsync, TOnServer>>) => TSelected;
   when: (state: TSelected) => boolean;
-  form?: { state: T };
+  form?: FormApi<TFormData, TOnMount, TOnChange, TOnChangeAsync, TOnBlur, TOnBlurAsync, TOnSubmit, TOnSubmitAsync, TOnServer, any>;
   onShow?: () => void;
   onHide?: () => void;
 }) {
@@ -20,8 +34,10 @@ export function ShowIf<T, TSelected>({
   const prevShownRef = useRef<boolean | null>(null);
 
   return (
-    // @ts-expect-error: Generic type is not inferred correctly
-    <form.Subscribe selector={selector}>
+    <form.Subscribe
+      // @ts-expect-error: This is a workaround for the type error. The selector prop is not typed correctly in the FormApi type definition.
+      selector={selector}
+    >
       {(value) => {
         const shouldShow = when(value);
 
