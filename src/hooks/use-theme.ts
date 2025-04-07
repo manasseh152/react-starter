@@ -1,6 +1,6 @@
 import { createContext, use } from "react";
 
-export type Theme = "dark" | "light" | "system";
+import type { Theme } from "@/config/theme";
 
 export type ThemeProviderState = {
   theme: Theme;

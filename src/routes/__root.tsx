@@ -1,6 +1,7 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
+import { ThemeSelector } from "@/components/theme-selector";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -56,6 +57,13 @@ function RootLayout() {
               </Link>
             </li>
           </ul>
+          <div className="ml-auto flex items-center gap-1 pe-2">
+            <ul className="flex gap-1" aria-label="Settings">
+              <li>
+                <ThemeSelector />
+              </li>
+            </ul>
+          </div>
         </div>
         <Separator />
       </nav>
