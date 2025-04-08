@@ -1,9 +1,11 @@
-import type { Theme } from "@/config/theme";
 import type { ReactNode } from "react";
 
-import { THEME_DEFAULT, THEME_STORAGE_KEY, THEMES } from "@/config/theme";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
+import type { Theme } from "@/config/theme";
+
+import { THEME_DEFAULT, THEME_STORAGE_KEY, THEMES } from "@/config/theme";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { ThemeProviderContext } from "@/hooks/use-theme";
 
 type ThemeProviderProps = {
@@ -18,9 +20,7 @@ export function ThemeProvider({
   storageKey = THEME_STORAGE_KEY,
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
-  );
+  const [theme, setTheme] = useLocalStorage<Theme>(storageKey, defaultTheme);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -42,11 +42,8 @@ export function ThemeProvider({
 
   const value = useMemo(() => ({
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
-    },
-  }), [theme, storageKey]);
+    setTheme,
+  }), [setTheme, theme]);
 
   return (
     <ThemeProviderContext {...props} value={value}>
