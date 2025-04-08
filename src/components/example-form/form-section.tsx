@@ -56,7 +56,7 @@ export const FormSection = withForm({
               children={field => (
                 <Label>
                   <Label.Text>Country</Label.Text>
-                  <field.SelectField field={field} options={COUNTRY_OPTIONS as unknown as SelectOption<string>[]} />
+                  <field.SelectField field={field} options={COUNTRY_OPTIONS as unknown as SelectOption<string>[]} placeholder="Select a country" />
                   <field.ValidationError />
                 </Label>
               )}
@@ -100,8 +100,8 @@ export const FormSection = withForm({
             <form.AppField
               name="enableEmailNotifications"
               children={field => (
-                <Label>
-                  <field.SwitchField field={field} />
+                <Label className="flex-row">
+                  <field.CheckboxField field={field} />
                   <Label.Text>Enable Email Notifications</Label.Text>
                   <field.ValidationError />
                 </Label>
@@ -110,10 +110,12 @@ export const FormSection = withForm({
             <form.AppField
               name="notificationTypes"
               children={field => (
-                <Label>
-                  <Label.Text>Notification Types</Label.Text>
-                  <field.CheckboxGroupField field={field} options={NOTIFICATION_TYPE_OPTIONS as unknown as Option<NotificationType>[]} />
-                  <field.ValidationError />
+                <Label asChild>
+                  <div>
+                    <Label.Text>Notification Types</Label.Text>
+                    <field.CheckboxGroupField field={field} options={NOTIFICATION_TYPE_OPTIONS as unknown as Option<NotificationType>[]} />
+                    <field.ValidationError />
+                  </div>
                 </Label>
               )}
             />
@@ -142,7 +144,7 @@ export const FormSection = withForm({
             <form.AppField
               name="agreeToTerms"
               children={field => (
-                <Label>
+                <Label className="flex-row">
                   <field.CheckboxField field={field} />
                   <Label.Text>I agree to the terms and conditions</Label.Text>
                   <field.ValidationError />
