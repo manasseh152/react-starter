@@ -4,7 +4,7 @@ import { FormSection } from "@/components/example-form/form-section";
 import { OutputSection } from "@/components/example-form/output-section";
 import { useExampleForm } from "@/hooks/use-example-form";
 
-export const Route = createFileRoute("/forms/")({
+export const Route = createFileRoute("/(no-cookie)/forms/")({
   component: RouteComponent,
 });
 
