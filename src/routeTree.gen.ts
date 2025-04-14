@@ -11,24 +11,10 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as noCookieRouteImport } from './routes/(no-cookie)/route'
-import { Route as cookieRouteImport } from './routes/(cookie)/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as noCookieLoginIndexImport } from './routes/(no-cookie)/login/index'
-import { Route as noCookieFormsIndexImport } from './routes/(no-cookie)/forms/index'
-import { Route as cookieAdminIndexImport } from './routes/(cookie)/admin/index'
+import { Route as FormsIndexImport } from './routes/forms/index'
 
 // Create/Update Routes
-
-const noCookieRouteRoute = noCookieRouteImport.update({
-  id: '/(no-cookie)',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const cookieRouteRoute = cookieRouteImport.update({
-  id: '/(cookie)',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -36,22 +22,10 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const noCookieLoginIndexRoute = noCookieLoginIndexImport.update({
-  id: '/login/',
-  path: '/login/',
-  getParentRoute: () => noCookieRouteRoute,
-} as any)
-
-const noCookieFormsIndexRoute = noCookieFormsIndexImport.update({
+const FormsIndexRoute = FormsIndexImport.update({
   id: '/forms/',
   path: '/forms/',
-  getParentRoute: () => noCookieRouteRoute,
-} as any)
-
-const cookieAdminIndexRoute = cookieAdminIndexImport.update({
-  id: '/admin/',
-  path: '/admin/',
-  getParentRoute: () => cookieRouteRoute,
+  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -65,122 +39,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/(cookie)': {
-      id: '/(cookie)'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof cookieRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/(no-cookie)': {
-      id: '/(no-cookie)'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof noCookieRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/(cookie)/admin/': {
-      id: '/(cookie)/admin/'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof cookieAdminIndexImport
-      parentRoute: typeof cookieRouteImport
-    }
-    '/(no-cookie)/forms/': {
-      id: '/(no-cookie)/forms/'
+    '/forms/': {
+      id: '/forms/'
       path: '/forms'
       fullPath: '/forms'
-      preLoaderRoute: typeof noCookieFormsIndexImport
-      parentRoute: typeof noCookieRouteImport
-    }
-    '/(no-cookie)/login/': {
-      id: '/(no-cookie)/login/'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof noCookieLoginIndexImport
-      parentRoute: typeof noCookieRouteImport
+      preLoaderRoute: typeof FormsIndexImport
+      parentRoute: typeof rootRoute
     }
   }
 }
 
 // Create and export the route tree
 
-interface cookieRouteRouteChildren {
-  cookieAdminIndexRoute: typeof cookieAdminIndexRoute
-}
-
-const cookieRouteRouteChildren: cookieRouteRouteChildren = {
-  cookieAdminIndexRoute: cookieAdminIndexRoute,
-}
-
-const cookieRouteRouteWithChildren = cookieRouteRoute._addFileChildren(
-  cookieRouteRouteChildren,
-)
-
-interface noCookieRouteRouteChildren {
-  noCookieFormsIndexRoute: typeof noCookieFormsIndexRoute
-  noCookieLoginIndexRoute: typeof noCookieLoginIndexRoute
-}
-
-const noCookieRouteRouteChildren: noCookieRouteRouteChildren = {
-  noCookieFormsIndexRoute: noCookieFormsIndexRoute,
-  noCookieLoginIndexRoute: noCookieLoginIndexRoute,
-}
-
-const noCookieRouteRouteWithChildren = noCookieRouteRoute._addFileChildren(
-  noCookieRouteRouteChildren,
-)
-
 export interface FileRoutesByFullPath {
-  '/': typeof noCookieRouteRouteWithChildren
-  '/admin': typeof cookieAdminIndexRoute
-  '/forms': typeof noCookieFormsIndexRoute
-  '/login': typeof noCookieLoginIndexRoute
+  '/': typeof IndexRoute
+  '/forms': typeof FormsIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof noCookieRouteRouteWithChildren
-  '/admin': typeof cookieAdminIndexRoute
-  '/forms': typeof noCookieFormsIndexRoute
-  '/login': typeof noCookieLoginIndexRoute
+  '/': typeof IndexRoute
+  '/forms': typeof FormsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/(cookie)': typeof cookieRouteRouteWithChildren
-  '/(no-cookie)': typeof noCookieRouteRouteWithChildren
-  '/(cookie)/admin/': typeof cookieAdminIndexRoute
-  '/(no-cookie)/forms/': typeof noCookieFormsIndexRoute
-  '/(no-cookie)/login/': typeof noCookieLoginIndexRoute
+  '/forms/': typeof FormsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/forms' | '/login'
+  fullPaths: '/' | '/forms'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/forms' | '/login'
-  id:
-    | '__root__'
-    | '/'
-    | '/(cookie)'
-    | '/(no-cookie)'
-    | '/(cookie)/admin/'
-    | '/(no-cookie)/forms/'
-    | '/(no-cookie)/login/'
+  to: '/' | '/forms'
+  id: '__root__' | '/' | '/forms/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  cookieRouteRoute: typeof cookieRouteRouteWithChildren
-  noCookieRouteRoute: typeof noCookieRouteRouteWithChildren
+  FormsIndexRoute: typeof FormsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  cookieRouteRoute: cookieRouteRouteWithChildren,
-  noCookieRouteRoute: noCookieRouteRouteWithChildren,
+  FormsIndexRoute: FormsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -194,37 +97,14 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/(cookie)",
-        "/(no-cookie)"
+        "/forms/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/(cookie)": {
-      "filePath": "(cookie)/route.tsx",
-      "children": [
-        "/(cookie)/admin/"
-      ]
-    },
-    "/(no-cookie)": {
-      "filePath": "(no-cookie)/route.tsx",
-      "children": [
-        "/(no-cookie)/forms/",
-        "/(no-cookie)/login/"
-      ]
-    },
-    "/(cookie)/admin/": {
-      "filePath": "(cookie)/admin/index.tsx",
-      "parent": "/(cookie)"
-    },
-    "/(no-cookie)/forms/": {
-      "filePath": "(no-cookie)/forms/index.tsx",
-      "parent": "/(no-cookie)"
-    },
-    "/(no-cookie)/login/": {
-      "filePath": "(no-cookie)/login/index.tsx",
-      "parent": "/(no-cookie)"
+    "/forms/": {
+      "filePath": "forms/index.tsx"
     }
   }
 }
