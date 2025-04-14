@@ -30,7 +30,7 @@ export function ThemeProvider({
     root.classList.remove(...THEMES);
 
     if (theme === "system")
-      root.classList.add(prefersDark ? "dark" : "ligt");
+      root.classList.add(prefersDark ? "dark" : "light");
     else
       root.classList.add(theme);
   }, [prefersDark, theme]);
