@@ -16,8 +16,10 @@ export function ThemeSelector() {
   function handleThemeChange(value: string) {
     const parsedValue = v.safeParse(ThemeSchema, value);
 
-    if (parsedValue.success)
-      return setTheme(parsedValue.output);
+    if (parsedValue.success) {
+      setTheme(parsedValue.output);
+      return;
+    }
 
     // TODO: Use global error handling
     console.error("[ThemeSelector] Invalid theme value", value);

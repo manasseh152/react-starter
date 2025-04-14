@@ -90,7 +90,7 @@ export function FormCheckboxGroup<T extends PrimitiveValueType>(
           const isChecked = isValueSelected(option.value);
 
           return (
-            <div key={stringValue} className="flex items-center space-x-2">
+            <div key={stringValue} className="flex items-center gap-2">
               <Checkbox
                 id={id}
                 checked={isChecked}
