@@ -16,7 +16,7 @@ if (rootElement && !rootElement.innerHTML) {
     </StrictMode>,
   );
 
-  logger.info("React app mounted successfully.");
+  logger.debug("React app mounted successfully.");
 }
 else {
   logger.error("Failed to mount React app: root element is missing or already has content.");
