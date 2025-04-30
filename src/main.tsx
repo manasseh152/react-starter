@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { Provider } from "@/components/providers";
+import { logger } from "@/lib/logger";
 
 import "@/assets/styles/styles.css";
 
@@ -14,4 +15,9 @@ if (rootElement && !rootElement.innerHTML) {
       <Provider />
     </StrictMode>,
   );
+
+  logger.info("React app mounted successfully.");
+}
+else {
+  logger.error("Failed to mount React app: root element is missing or already has content.");
 }
