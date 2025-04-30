@@ -57,3 +57,11 @@ export class Logger implements ILogger {
     this.log("ERROR", ...messages);
   }
 }
+
+export function createLogger(options: LoggerOptions): ILogger {
+  return new Logger(options);
+}
+
+export const logger = createLogger({
+  name: "default",
+});
