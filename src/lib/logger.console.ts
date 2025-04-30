@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import type { LogEntry, LogLevel, Transport } from "@/config/logger";
 
-import { shouldLog } from "@/lib/utils";
+import { LOG_LEVELS } from "@/config/logger";
 
 export type ConsoleTransportOptions = {
   level?: LogLevel;
@@ -22,8 +22,7 @@ export class ConsoleTransport implements Transport {
     const { level, messages } = entry;
 
     // Check if the log level is enabled for this transport
-    if (!shouldLog(level, this.level))
-
+    if (entry.level < LOG_LEVELS[this.level])
       return; // If the log level is not enabled, do not log
 
     const formattedMessages = this.formatMessages(messages);
@@ -31,20 +30,20 @@ export class ConsoleTransport implements Transport {
 
     // Output to console with appropriate method based on log level
     switch (level) {
-      case "DEBUG":
-        console.debug(`[${timestamp}] [${entry.loggerName}] ${formattedMessages}`);
+      case LOG_LEVELS.DEBUG:
+        console.debug(`[${timestamp}] ${entry.loggerName}: ${formattedMessages}`);
         break;
-      case "INFO":
-        console.info(`[${timestamp}] [${entry.loggerName}] ${formattedMessages}`);
+      case LOG_LEVELS.INFO:
+        console.info(`[${timestamp}] ${entry.loggerName}: ${formattedMessages}`);
         break;
-      case "WARN":
-        console.warn(`[${timestamp}] [${entry.loggerName}] ${formattedMessages}`);
+      case LOG_LEVELS.WARN:
+        console.warn(`[${timestamp}] ${entry.loggerName}: ${formattedMessages}`);
         break;
-      case "ERROR":
-        console.error(`[${timestamp}] [${entry.loggerName}] ${formattedMessages}`);
+      case LOG_LEVELS.ERROR:
+        console.error(`[${timestamp}] ${entry.loggerName}: ${formattedMessages}`);
         break;
       default:
-        console.log(`[${timestamp}] [${entry.loggerName}] ${formattedMessages}`);
+        console.log(`[${timestamp}] ${entry.loggerName}: ${formattedMessages}`);
     }
   }
 

@@ -1,7 +1,7 @@
 import type { Logger as ILogger, LogEntry, LoggerOptions, LogLevel, Transport } from "@/config/logger";
 
-import { DEFAULT_LOG_LEVEL, DEFAULT_TRANSPORTS } from "@/config/logger";
-import { shouldLog } from "@/lib/utils";
+import { env } from "@/config/env";
+import { DEFAULT_LOG_LEVEL, DEFAULT_TRANSPORTS, LOG_LEVELS } from "@/config/logger";
 
 export class Logger implements ILogger {
   private _name: string;
@@ -17,13 +17,13 @@ export class Logger implements ILogger {
   private log(level: LogLevel, ...messages: any[]): void {
     const entry: LogEntry = {
       timestamp: new Date(),
-      level,
+      level: LOG_LEVELS[level],
       loggerName: this._name,
       messages,
     };
 
     // Check if the log level is enabled for this transport
-    if (!shouldLog(level))
+    if (entry.level < LOG_LEVELS[this._level])
       return; // If the log level is not enabled, do not log
 
     this._transports.forEach(transport => transport.log(entry));
@@ -65,4 +65,5 @@ export function createLogger(options: LoggerOptions): ILogger {
 
 export const logger = createLogger({
   name: "default",
+  level: env.dev ? "DEBUG" : "INFO",
 });

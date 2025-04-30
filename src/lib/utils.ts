@@ -3,10 +3,6 @@ import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import type { LogLevel } from "@/config/logger";
-
-import { LOG_LEVELS } from "@/config/logger";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -25,11 +21,4 @@ export function reportWebVitals(onPerfEntry?: () => void) {
       onTTFB(onPerfEntry);
     });
   }
-}
-
-export function shouldLog(entryLevel: LogLevel, transportLevel?: LogLevel): boolean {
-  if (!transportLevel)
-    return true; // If no transport level is set, log everything
-
-  return LOG_LEVELS.indexOf(entryLevel) >= LOG_LEVELS.indexOf(transportLevel);
 }

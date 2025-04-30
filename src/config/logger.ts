@@ -1,22 +1,24 @@
+import { env } from "@/config/env";
 import { ConsoleTransport } from "@/lib/logger.console";
 
 export const DEFAULT_LOG_LEVEL: Readonly<LogLevel> = "INFO";
-export const DEFAULT_TRANSPORTS: ReadonlyArray<Transport> = [new ConsoleTransport()];
+export const DEFAULT_TRANSPORTS: ReadonlyArray<Transport> = [new ConsoleTransport({ level: env.dev ? "DEBUG" : "INFO" })];
 
-export const LOG_LEVELS = [
-  "DEBUG",
-  "INFO",
-  "WARN",
-  "ERROR",
-] as const;
-export type LogLevel = typeof LOG_LEVELS[number];
+export const LOG_LEVELS = {
+  DEBUG: 0,
+  INFO: 10,
+  WARN: 20,
+  ERROR: 30,
+} as const;
+export type LogLevel = keyof typeof LOG_LEVELS;
+export type LogLevelValue = typeof LOG_LEVELS[LogLevel];
 
 /**
  * Represents a single log entry's data.
  */
 export type LogEntry = {
   timestamp: Date;
-  level: LogLevel;
+  level: LogLevelValue; // The log level (DEBUG, INFO, WARN, ERROR)
   loggerName: string;
   messages: any[]; // The actual data/messages being logged
 };
