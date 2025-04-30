@@ -28,8 +28,8 @@ export function reportWebVitals(onPerfEntry?: () => void) {
 }
 
 export function shouldLog(entryLevel: LogLevel, transportLevel?: LogLevel): boolean {
-  if (!transportLevel) {
+  if (!transportLevel)
     return true; // If no transport level is set, log everything
-  }
+
   return LOG_LEVELS.indexOf(entryLevel) >= LOG_LEVELS.indexOf(transportLevel);
 }

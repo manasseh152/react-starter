@@ -23,9 +23,10 @@ export class Logger implements ILogger {
     };
 
     // Check if the log level is enabled for this transport
-    if (shouldLog(level)) {
-      this._transports.forEach(transport => transport.log(entry));
-    }
+    if (!shouldLog(level))
+      return; // If the log level is not enabled, do not log
+
+    this._transports.forEach(transport => transport.log(entry));
   }
 
   get name(): string {

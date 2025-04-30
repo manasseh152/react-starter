@@ -22,8 +22,9 @@ export class ConsoleTransport implements Transport {
     const { level, messages } = entry;
 
     // Check if the log level is enabled for this transport
-    if (shouldLog(level, this.level))
-      return;
+    if (!shouldLog(level, this.level))
+
+      return; // If the log level is not enabled, do not log
 
     const formattedMessages = this.formatMessages(messages);
     const timestamp = this.formatTimestamp(entry);
@@ -69,6 +70,6 @@ export class ConsoleTransport implements Transport {
   }
 
   private formatTimestamp(entry: LogEntry): string {
-    return entry.timestamp.toISOString();
+    return entry.timestamp.toLocaleTimeString();
   }
 }
