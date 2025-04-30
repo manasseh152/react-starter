@@ -66,5 +66,8 @@
     "scss",
     "pcss",
     "postcss"
-  ]
+  ],
+
+  // Spacing
+  "editor.tabSize": 2
 }
