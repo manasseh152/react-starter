@@ -1,4 +1,10 @@
 {
+  // Editor settings
+  "editor.formatOnPaste": true,
+  "editor.indentSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+
   // Tanstack Router
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
@@ -16,8 +22,7 @@
   "i18n-ally.keystyle": "nested",
 
   // Disable auto save
-  "editor.insertSpaces": true,
-  "git.repositoryScanMaxDepth": 2,
+  "files.autoSave": "off",
 
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
