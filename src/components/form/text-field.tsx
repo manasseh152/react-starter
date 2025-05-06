@@ -43,26 +43,24 @@ export function FormTextField<T extends string | number | null>(
   const { value, onChange, mask, maskChar = "_", ...restProps } = props;
   const [displayValue, setDisplayValue] = useState<string>("");
 
-  const finalType: HTMLInputTypeAttribute
-    = props.type === "text-number" ? "text" : props.type || "text";
+  const finalType: HTMLInputTypeAttribute = props.type === "text-number" ? "text" : props.type || "text";
 
   function unmaskInput(value: string): string {
     if (!mask)
       return value;
-    const dividers = Array.from(
-      new Set(mask.split("").filter(c => c !== maskChar)),
-    );
-    return value
-      .split("")
-      .filter(char => !dividers.includes(char))
-      .join("");
+
+    const dividers = Array.from(new Set(mask.split("").filter(c => c !== maskChar)));
+
+    return value.split("").filter(char => !dividers.includes(char)).join("");
   }
 
   const formatValue = useCallback((rawValue: string): string => {
     if (!mask)
       return rawValue;
+
     let formatted = "";
     let rawIndex = 0;
+
     for (const maskCharItem of mask) {
       if (maskCharItem === maskChar && rawIndex < rawValue.length) {
         formatted += rawValue[rawIndex++];
@@ -71,6 +69,7 @@ export function FormTextField<T extends string | number | null>(
         formatted += maskCharItem;
       }
     }
+
     return formatted;
   }, [mask, maskChar]);
 

@@ -9,10 +9,7 @@ import { cn } from "@/lib/utils";
 export type TimeValue = number | string | null | undefined;
 
 // Enhanced type definitions with generics to maintain type consistency
-export type FormTimeFieldProps<T extends TimeValue = number> = Omit<
-  HTMLAttributes<HTMLInputElement>,
-  "value" | "onChange"
-> & {
+export type FormTimeFieldProps<T extends TimeValue = number> = Omit<HTMLAttributes<HTMLInputElement>, "value" | "onChange"> & {
   value: T;
   onChange: (value: T) => void;
   onBlur?: () => void;
