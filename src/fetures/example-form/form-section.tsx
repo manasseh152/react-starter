@@ -1,14 +1,14 @@
 import type { FormEvent } from "react";
 
 import type { SelectOption } from "@/components/form-fields/select";
-import type { NotificationType } from "@/hooks/use-example-form";
+import type { NotificationType } from "@/fetures/example-form/use-example-form";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { withForm } from "@/hooks/use-app-form";
-import { COUNTRY_OPTIONS, defaultValues, NOTIFICATION_TYPE_OPTIONS } from "@/hooks/use-example-form";
+import { COUNTRY_OPTIONS, defaultValues, NOTIFICATION_TYPE_OPTIONS } from "@/fetures/example-form/use-example-form";
 
-import type { Option } from "../form/checkbox-group";
+import type { Option } from "../../components/form/checkbox-group";
 
 export const FormSection = withForm({
   defaultValues,

@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { FormSection } from "@/components/example-form/form-section";
-import { OutputSection } from "@/components/example-form/output-section";
-import { useExampleForm } from "@/hooks/use-example-form";
+import { FormSection } from "@/fetures/example-form/form-section";
+import { OutputSection } from "@/fetures/example-form/output-section";
+import { useExampleForm } from "@/fetures/example-form/use-example-form";
 
 export const Route = createFileRoute("/forms/")({
   component: RouteComponent,
