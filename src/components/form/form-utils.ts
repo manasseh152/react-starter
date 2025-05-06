@@ -1,6 +1,20 @@
 export type PrimitiveValueType = string | number | boolean | null | undefined;
 
 /**
+ * Constants for special value string markers
+ */
+export const ValueMarkers = {
+  EMPTY: "__empty__",
+  UNDEFINED: "__undefined__",
+  NULL: "__null__",
+  NAN: "__NaN__",
+  INFINITY: "__Infinity__",
+  NEGATIVE_INFINITY: "__-Infinity__",
+  FALSE: "__false__",
+  TRUE: "__true__",
+} as const;
+
+/**
  * Converts a primitive value to a safe string representation
  *
  * @param value - Any primitive value to convert
@@ -8,21 +22,21 @@ export type PrimitiveValueType = string | number | boolean | null | undefined;
  */
 export function valueToString(value: PrimitiveValueType): string {
   if (value === "")
-    return "__empty__";
+    return ValueMarkers.EMPTY;
   if (value === undefined)
-    return "__undefined__";
+    return ValueMarkers.UNDEFINED;
   if (value === null)
-    return "__null__";
+    return ValueMarkers.NULL;
   if (typeof value === "number" && Number.isNaN(value))
-    return "__NaN__";
+    return ValueMarkers.NAN;
   if (value === Infinity)
-    return "__Infinity__";
+    return ValueMarkers.INFINITY;
   if (value === -Infinity)
-    return "__-Infinity__";
+    return ValueMarkers.NEGATIVE_INFINITY;
   if (value === false)
-    return "__false__";
+    return ValueMarkers.FALSE;
   if (value === true)
-    return "__true__";
+    return ValueMarkers.TRUE;
   return String(value);
 }
 
@@ -33,21 +47,21 @@ export function valueToString(value: PrimitiveValueType): string {
  * @returns The original primitive value
  */
 export function stringToValue(str: string): PrimitiveValueType {
-  if (str === "__empty__")
+  if (str === ValueMarkers.EMPTY)
     return "";
-  if (str === "__undefined__")
+  if (str === ValueMarkers.UNDEFINED)
     return undefined;
-  if (str === "__null__")
+  if (str === ValueMarkers.NULL)
     return null;
-  if (str === "__NaN__")
+  if (str === ValueMarkers.NAN)
     return Number.NaN;
-  if (str === "__Infinity__")
+  if (str === ValueMarkers.INFINITY)
     return Infinity;
-  if (str === "__-Infinity__")
+  if (str === ValueMarkers.NEGATIVE_INFINITY)
     return -Infinity;
-  if (str === "__false__")
+  if (str === ValueMarkers.FALSE)
     return false;
-  if (str === "__true__")
+  if (str === ValueMarkers.TRUE)
     return true;
 
   // Try to parse as number if it looks like one
