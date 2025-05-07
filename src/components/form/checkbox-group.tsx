@@ -79,7 +79,7 @@ export function FormCheckboxGroup<T extends PrimitiveValueType>(
       <div
         className={cn(
           orientation === "vertical"
-            ? "flex flex-col space-y-2"
+            ? "flex flex-col gap-2"
             : "flex flex-row flex-wrap gap-4",
         )}
       >

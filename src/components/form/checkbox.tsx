@@ -30,7 +30,7 @@ export function FormCheckbox(props: FormCheckboxProps) {
   };
 
   return (
-    <div className={cn("flex items-center space-x-2", className)} {...restProps}>
+    <div className={cn("flex items-center gap-2", className)} {...restProps}>
       <Checkbox
         id={id}
         checked={checked}
