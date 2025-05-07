@@ -17,9 +17,10 @@
   },
 
   // I18n Ally
-  "i18n-ally.localesPaths": ["apps/**/public/locales"],
+  "i18n-ally.localesPaths": ["public/locales"],
   "i18n-ally.namespace": true,
   "i18n-ally.keystyle": "nested",
+  "i18n-ally.sourceLanguage": "nl",
 
   // Disable auto save
   "files.autoSave": "off",
@@ -71,8 +72,5 @@
     "scss",
     "pcss",
     "postcss"
-  ],
-
-  // Spacing
-  "editor.tabSize": 2
+  ]
 }

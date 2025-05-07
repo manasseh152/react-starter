@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import * as v from "valibot";
 
 import {
@@ -9,20 +10,21 @@ import {
 } from "@/components/ui/select";
 import { THEMES, ThemeSchema } from "@/config/theme";
 import { useTheme } from "@/hooks/use-theme";
+import { logger } from "@/lib/logger";
 
 export function ThemeSelector() {
+  const { t } = useTranslation("theme-selector");
   const { theme, setTheme } = useTheme();
 
   function handleThemeChange(value: string) {
     const parsedValue = v.safeParse(ThemeSchema, value);
 
-    if (parsedValue.success) {
-      setTheme(parsedValue.output);
+    if (!parsedValue.success) {
+      logger.error(`ThemeSelector: Failed to parse theme value: ${value}.`, { parsedValue });
       return;
     }
 
-    // TODO: Use global error handling
-    console.error("[ThemeSelector] Invalid theme value", value);
+    setTheme(parsedValue.output);
   }
 
   return (
@@ -30,13 +32,13 @@ export function ThemeSelector() {
       defaultValue={theme}
       onValueChange={handleThemeChange}
     >
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a theme" />
+      <SelectTrigger className="w-[180px]" title={t("themeSelectorTitle")} aria-label={t("themeSelectorAriaLabel")} aria-description={t("themeSelectorAriaDescription")}>
+        <SelectValue placeholder={t("selectPlaceholder")} />
       </SelectTrigger>
       <SelectContent>
         {THEMES.map(theme => (
           <SelectItem key={theme} value={theme}>
-            {theme}
+            {t(`themes.${theme}`)}
           </SelectItem>
         ))}
       </SelectContent>

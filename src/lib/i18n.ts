@@ -3,7 +3,7 @@ import HttpApi from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
 import { env } from "@/config/env";
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/config/i18n";
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/config/language";
 
 i18n
   .use(HttpApi)
