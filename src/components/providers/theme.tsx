@@ -19,7 +19,6 @@ export function ThemeProvider({
   children,
   defaultTheme = THEME_DEFAULT,
   storageKey = THEME_STORAGE_KEY,
-  ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useLocalStorage<Theme>(storageKey, defaultTheme);
   const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
@@ -41,8 +40,9 @@ export function ThemeProvider({
   }), [setTheme, theme]);
 
   return (
-    <ThemeProviderContext {...props} value={value}>
+    <ThemeProviderContext value={value}>
       {children}
     </ThemeProviderContext>
   );
 }
+ThemeProvider.displayName = "ThemeProvider";

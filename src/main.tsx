@@ -6,6 +6,8 @@ import { logger } from "@/lib/logger";
 
 import "@/assets/styles/styles.css";
 
+import "@/lib/i18n";
+
 const rootElement = document.getElementById("app");
 
 if (rootElement && !rootElement.innerHTML) {

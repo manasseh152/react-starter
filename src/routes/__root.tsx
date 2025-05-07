@@ -1,6 +1,8 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { useTranslation } from "react-i18next";
 
+import { LanguageSelector } from "@/components/language-selector";
 import { ThemeSelector } from "@/components/theme-selector";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
@@ -10,6 +12,8 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
+  const { t } = useTranslation("root-layout");
+
   return (
     <>
       <nav className="w-full flex flex-col bg-background text-foreground" role="navigation">
@@ -22,7 +26,7 @@ function RootLayout() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Learn React
+                {t("learnReact")}
               </a>
             </li>
             <li>
@@ -32,7 +36,7 @@ function RootLayout() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Learn TanStack
+                {t("learnTanStack")}
               </a>
             </li>
           </ul>
@@ -44,7 +48,7 @@ function RootLayout() {
                 activeProps={{ className: "text-primary underline" }}
                 to="/"
               >
-                Home
+                {t("navigation.home")}
               </Link>
             </li>
             <li>
@@ -53,7 +57,7 @@ function RootLayout() {
                 activeProps={{ className: "text-primary underline" }}
                 to="/forms"
               >
-                Forms
+                {t("navigation.forms")}
               </Link>
             </li>
           </ul>
@@ -61,6 +65,9 @@ function RootLayout() {
             <ul className="flex gap-1" aria-label="Settings">
               <li>
                 <ThemeSelector />
+              </li>
+              <li>
+                <LanguageSelector />
               </li>
             </ul>
           </div>
