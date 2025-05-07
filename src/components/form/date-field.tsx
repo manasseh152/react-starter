@@ -5,6 +5,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
+import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 
 export type DateValue = Date | string | number | null | undefined; // number is unix timestamp in milliseconds
@@ -109,7 +110,7 @@ function toPlainTime(timeValue?: TimeValue): Temporal.PlainTime {
         });
       }
       // If all parsing attempts fail, return default time
-      console.error("Invalid time string format:", timeValue);
+      logger.error("Invalid time string format:", timeValue);
       return Temporal.PlainTime.from({
         hour: 0,
         minute: 0,
@@ -263,7 +264,7 @@ export function FormDateField<T extends DateValue = Date>(
       setDisplayValue(plainDateToISOString(plainDate));
     }
     catch (e) {
-      console.error("Error converting date value:", e);
+      logger.error("Error converting date value:", e);
       setDisplayValue("");
     }
   }, [value]);
@@ -326,7 +327,7 @@ export function FormDateField<T extends DateValue = Date>(
         onChange(outputValue);
       }
       catch (e) {
-        console.error("Error handling date change:", e);
+        logger.error("Error handling date change:", e);
       }
     }
   };

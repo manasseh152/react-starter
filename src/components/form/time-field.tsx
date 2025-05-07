@@ -4,6 +4,7 @@ import type { HTMLAttributes } from "react";
 import { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
+import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 
 export type TimeValue = number | string | null | undefined;
@@ -39,13 +40,13 @@ function convertToSeconds(timeValue: TimeValue): number {
   try {
     const [hours, minutes] = timeValue.split(":").map(Number);
     if (Number.isNaN(hours) || Number.isNaN(minutes)) {
-      console.warn("Invalid time format:", timeValue);
+      logger.warn("Invalid time format:", timeValue);
       return 0;
     }
     return hours * 3600 + minutes * 60;
   }
   catch (e) {
-    console.warn("Error parsing time:", timeValue, e);
+    logger.warn("Error parsing time:", timeValue, e);
     return 0;
   }
 }
@@ -58,7 +59,7 @@ function convertToSeconds(timeValue: TimeValue): number {
 function secondsToTimeFormat(seconds: number): string {
   // Ensure we have a valid number
   if (Number.isNaN(seconds) || seconds < 0) {
-    console.warn("Invalid seconds value:", seconds);
+    logger.warn("Invalid seconds value:", seconds);
     return "00:00";
   }
 
@@ -113,7 +114,7 @@ export function FormTimeField<T extends TimeValue = number>(
         setDisplayValue(value);
       }
       else {
-        console.warn("Invalid time string format:", value);
+        logger.warn("Invalid time string format:", value);
         setDisplayValue("00:00");
       }
     }

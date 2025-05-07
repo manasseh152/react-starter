@@ -9,6 +9,8 @@ import {
   useState,
 } from "react";
 
+import { logger } from "@/lib/logger";
+
 // Helper function to safely parse JSON
 function safeJsonParse<T>(jsonString: string | null): T | null {
   if (jsonString === null) {
@@ -18,8 +20,7 @@ function safeJsonParse<T>(jsonString: string | null): T | null {
     return JSON.parse(jsonString) as T;
   }
   catch (error) {
-    // TODO: Use global error handling
-    console.error("Error parsing JSON from localStorage:", error);
+    logger.error("Error parsing JSON from localStorage:", error);
     return null; // Return null if parsing fails
   }
 }
@@ -30,8 +31,7 @@ function safeJsonStringify<T>(value: T): string | null {
     return JSON.stringify(value);
   }
   catch (error) {
-    // TODO: Use global error handling
-    console.error("Error stringifying value for localStorage:", error);
+    logger.error("Error stringifying value for localStorage:", error);
     return null; // Return null if stringify fails
   }
 }
@@ -85,8 +85,7 @@ export function useLocalStorage<T>(
       return parsed !== null ? parsed : getInitialValue();
     }
     catch (error) {
-      // TODO: Use global error handling
-      console.error(`Error reading localStorage key “${key}”:`, error);
+      logger.error(`Error reading localStorage key “${key}”:`, error);
       // Fallback to initial value on error
       return getInitialValue();
     }
@@ -101,10 +100,7 @@ export function useLocalStorage<T>(
     (valueOrFn) => {
       // Prevent build errors and errors during server-side rendering
       if (typeof window === "undefined" || !window.localStorage) {
-        // TODO: Use global error handling
-        console.warn(
-          `Tried setting localStorage key “${key}” even though environment is not a browser.`,
-        );
+        logger.warn(`Tried setting localStorage key “${key}” even though environment is not a browser.`);
         // Still update the state in memory for SSR/static export consistency
         setStoredValue(valueOrFn);
         return;
@@ -138,7 +134,7 @@ export function useLocalStorage<T>(
           // TODO: Use global error handling
           // Handle stringification error - perhaps remove the key? Or keep old value?
           // For now, we just log the error and don't update localStorage.
-          console.error(`Failed to stringify value for key "${key}". LocalStorage not updated.`);
+          logger.error(`Failed to stringify value for key "${key}". LocalStorage not updated.`);
         }
 
         // Save state
@@ -146,7 +142,7 @@ export function useLocalStorage<T>(
       }
       catch (error) {
         // TODO: Use global error handling
-        console.error(`Error setting localStorage key “${key}”:`, error);
+        logger.error(`Error setting localStorage key “${key}”:`, error);
       }
     },
     [key, storedValue], // Include storedValue in deps for the function updater case
@@ -156,10 +152,7 @@ export function useLocalStorage<T>(
   const removeValue = useCallback(() => {
     // Prevent build errors and errors during server-side rendering
     if (typeof window === "undefined" || !window.localStorage) {
-      // TODO: Use global error handling
-      console.warn(
-        `Tried removing localStorage key “${key}” even though environment is not a browser.`,
-      );
+      logger.warn(`Tried removing localStorage key “${key}” even though environment is not a browser.`);
       // Reset state in memory anyway
       setStoredValue(getInitialValue());
       return;
@@ -181,8 +174,7 @@ export function useLocalStorage<T>(
       );
     }
     catch (error) {
-      // TODO: Use global error handling
-      console.error(`Error removing localStorage key “${key}”:`, error);
+      logger.error(`Error removing localStorage key “${key}”:`, error);
     }
   }, [key, getInitialValue]);
 
@@ -214,8 +206,7 @@ export function useLocalStorage<T>(
         setStoredValue(parsed);
       }
       catch (error) {
-        // TODO: Use global error handling
-        console.error(`Error handling storage event for key "${key}":`, error);
+        logger.error(`Error handling storage event for key "${key}":`, error);
         // Fallback to initial value on error
         setStoredValue(getInitialValue());
       }
